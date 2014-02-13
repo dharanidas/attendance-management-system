@@ -1,0 +1,115 @@
+<?php
+$_SESSION['i']=0;
+while($_SESSION['i']<$_SESSION['len'])
+{
+	$i=$_SESSION['i'];
+	$k=$_SESSION['stu_toenroll'][$i];
+	if(isset($_POST[$k]))
+	{
+    $st_id = $_SESSION['stu_toenroll'][$i];
+    $class_id = $_SESSION['t_id'][$i];
+	$en_no=$_POST['enrl_no'];
+	require_once('dbconnect.php');
+	$result1=mysql_query("select * from enrolled_details") or die(mysql_error());
+	if ($en_no==NULL|| $en_no=="")
+	echo "Please enter the serial no";
+	else
+	{	
+	while($row=mysql_fetch_array($result1))
+	{
+		if($row['s_no']==$en_no)
+			die ("ID number already exists...!Please enter again...!");
+	}
+	//echo $en_no." ";
+	//echo $st_id." ";
+	//echo $class_id." ";
+    
+	$p=$_SESSION['cls'];
+	    $result = mysql_query("insert ignore into enrolled_details(id_no,course_id,s_no) select id_no,'$p','$en_no' from registered where id_no like '$st_id'") or die(mysql_error());
+        echo $st_id . "is now enrolled in course" . "$p";
+
+	}
+
+	if (isset($_POST['search']) ) 
+	{
+		$_GET['search'] = $_POST['search'];
+	}
+	else 
+	{
+ 
+	}
+	}
+	$_SESSION['i']=$_SESSION['i']+1;
+}
+$_SESSION['i']=0;
+
+?>
+
+
+<?php
+$_SESSION['cls']="";
+require_once( 'dbconnect.php');
+$a = $_GET['id'];
+$_SESSION['cls']=$a;
+$result = mysql_query("select * from course_details where course_id='$a'")
+        or die(mysql_error());
+if ($row = mysql_fetch_array($result)) {
+    $b = $row['course_name'] ;
+
+    echo "<div>Selected Course -> $b ($a) </div><br>";
+}
+?>
+
+<form name="search_form" method="POST" action="#">
+    <input type="text" name="search" value="" />
+    <input type="submit" value="Search"  />
+</form>
+
+
+
+<?php
+$_SESSION['stu_toenroll']=array();
+$_SESSION['t_id']=array();
+$_SESSION['len']=0;
+$_SESSION['i']=0;
+$i=0;
+
+/* $conn=mysql_connect("localhost","root","");
+  mysql_selectdb("mod_fpa"); */
+require_once('dbconnect.php');
+$a = $_GET['search'];
+if ($a == '') {
+    $a = '%';
+}
+
+ $b = $_GET['id'];
+echo "<a align=right href=facindex.php?page=enroll&search=".$a."&id=".$b."&st_toenroll=" . $a . ">   Enroll All</a>\n";
+
+
+$result = mysql_query("select * from registered where id_no like '$a'") or die(mysql_error());
+while ($row = mysql_fetch_array($result)) 
+{
+	$i=$_SESSION['i'];
+    $c = $row['id_no'];
+
+
+    $result1 = mysql_query("select * from enrolled_details where id_no='$c' and course_id='$b'") or die(mysql_error());
+    if ($row1 = mysql_fetch_array($result1)) {
+	
+       
+    } else {
+
+		
+        echo "<div class='enroll'>" . $row['id_no'] . "   " . $row['name'] . "<form action='#' method='POST'><input type='text' name='enrl_no' value=''>";
+		 $_SESSION['stu_toenroll'][$i]=$row['id_no'];
+		$_SESSION['t_id'][$i]=$row['name'];
+		$k=$row['id_no'];
+		
+		$_SESSION['i']=$_SESSION['i']+1;
+		echo "<input type='submit' name='".$k."' value='ENROLL'> </form></div><br>\n";
+    }
+	
+}
+$_SESSION['len']=$_SESSION['i'];
+
+?>
