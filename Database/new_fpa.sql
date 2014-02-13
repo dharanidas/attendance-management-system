@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 11, 2014 at 07:28 AM
--- Server version: 5.5.24-log
--- PHP Version: 5.4.3
+-- Generation Time: Feb 13, 2014 at 06:18 PM
+-- Server version: 5.6.12-log
+-- PHP Version: 5.4.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,8 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `ams`
+-- Database: `new_fpa`
 --
+CREATE DATABASE IF NOT EXISTS `new_fpa` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `new_fpa`;
 
 -- --------------------------------------------------------
 
@@ -402,6 +404,7 @@ INSERT INTO `course_schedule` (`course_id`, `day`, `time1_start`, `time1_end`, `
 CREATE TABLE IF NOT EXISTS `enrolled_details` (
   `id_no` varchar(11) NOT NULL,
   `course_id` varchar(11) NOT NULL,
+  `s_no` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_no`,`course_id`),
   KEY `course_id` (`course_id`),
   KEY `id_no` (`id_no`)
@@ -411,24 +414,25 @@ CREATE TABLE IF NOT EXISTS `enrolled_details` (
 -- Dumping data for table `enrolled_details`
 --
 
-INSERT INTO `enrolled_details` (`id_no`, `course_id`) VALUES
-('ca1', 'CSAD'),
-('ca10', 'CSAD'),
-('ca11', 'CSAD'),
-('ca12', 'CSAD'),
-('ca13', 'CSAD'),
-('ca14', 'CSAD'),
-('ca16', 'CSAD'),
-('ca17', 'CSAD'),
-('ca18', 'CSAD'),
-('ca2', 'CSAD'),
-('ca3', 'CSAD'),
-('ca4', 'CSAD'),
-('ca5', 'CSAD'),
-('ca6', 'CSAD'),
-('ca7', 'CSAD'),
-('ca8', 'CSAD'),
-('ca9', 'CSAD');
+INSERT INTO `enrolled_details` (`id_no`, `course_id`, `s_no`) VALUES
+('ca1', 'CSAD', '55'),
+('ca11', 'CSAD', '3'),
+('ca12', 'CSAD', '34'),
+('ca13', 'CSAD', '9'),
+('ca16', 'CSAD', ''),
+('ca17', 'CSAD', NULL),
+('ca18', 'CSAD', NULL),
+('ca2', 'CSAD', NULL),
+('ca20', 'CSAD', NULL),
+('ca3', 'CSAD', NULL),
+('ca4', 'CSAD', NULL),
+('ca5', 'CSAD', NULL),
+('ca6', 'CSAD', NULL),
+('ca7', 'CSAD', NULL),
+('ca8', 'CSAD', NULL),
+('ca9', 'CSAD', NULL),
+('fac', 'CSAD', NULL),
+('faculty', 'CSAD', NULL);
 
 -- --------------------------------------------------------
 
