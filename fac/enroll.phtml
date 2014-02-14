@@ -14,17 +14,18 @@ while($_SESSION['i']<$_SESSION['len'])
 	if ($en_no==NULL|| $en_no=="")
 	echo "Please enter the serial no";
 	else
-	{	
+	{
+	$p=$_SESSION['cls'];	
 	while($row=mysql_fetch_array($result1))
 	{
-		if($row['s_no']==$en_no)
+		if($row['s_no']==$en_no && $row['course_id']==$p)
 			die ("ID number already exists...!Please enter again...!");
 	}
 	//echo $en_no." ";
 	//echo $st_id." ";
 	//echo $class_id." ";
     
-	$p=$_SESSION['cls'];
+	
 	    $result = mysql_query("insert ignore into enrolled_details(id_no,course_id,s_no) select id_no,'$p','$en_no' from registered where id_no like '$st_id'") or die(mysql_error());
         echo $st_id . "is now enrolled in course" . "$p";
 
