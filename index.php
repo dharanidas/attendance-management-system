@@ -9,6 +9,7 @@
 
         <?php
         session_start();
+	$_SESSION['len']=0;
         if (isset($_GET['q']) && $_GET['q'] === 'invalid') {
             echo "<div id='error'> 'Wrong Id or Password'</div>";
         }

@@ -1,5 +1,5 @@
 <?php
-$_SESSION['len']=0;
+
 /**
  * class related to faculty view
  */
