@@ -1,5 +1,14 @@
 <?php
 $_SESSION['i']=0;
+if (isset($_POST['search']) ) 
+	{
+		$_GET['search'] = $_POST['search'];
+	
+	}
+	else 
+	{
+ 
+	}
 while($_SESSION['i']<$_SESSION['len'])
 {
 	$i=$_SESSION['i'];
@@ -31,14 +40,7 @@ while($_SESSION['i']<$_SESSION['len'])
 
 	}
 
-	if (isset($_POST['search']) ) 
-	{
-		$_GET['search'] = $_POST['search'];
-	}
-	else 
-	{
- 
-	}
+	
 	}
 	$_SESSION['i']=$_SESSION['i']+1;
 }
@@ -74,11 +76,13 @@ $_SESSION['t_id']=array();
 $_SESSION['len']=0;
 $_SESSION['i']=0;
 $i=0;
-
+$flag=0;
 /* $conn=mysql_connect("localhost","root","");
   mysql_selectdb("mod_fpa"); */
 require_once('dbconnect.php');
 $a = $_GET['search'];
+if($a!=NULL || $a!= "")
+	$flag=1;
 if ($a == '') {
     $a = '%';
 }
@@ -92,15 +96,25 @@ while ($row = mysql_fetch_array($result))
 {
 	$i=$_SESSION['i'];
     $c = $row['id_no'];
-
-
+	
     $result1 = mysql_query("select * from enrolled_details where id_no='$c' and course_id='$b'") or die(mysql_error());
     if ($row1 = mysql_fetch_array($result1)) {
 	
        
-    } else {
-
+    } 
+	else {
+		if($flag==1)
+		{
+		echo "<div class='enroll'>" . $row['id_no'] . "   " . $row['name']. "<form action='#' method='POST'><input type='text' name='enrl_no' value=''>";
+		 $_SESSION['stu_toenroll'][$i]=$row['id_no'];
+		$_SESSION['t_id'][$i]=$row['name'];
+		$k=$row['id_no'];
 		
+		$_SESSION['i']=$_SESSION['i']+1;
+		echo "<input type='submit' name='".$k."' value='ENROLL'> </form></div><br>\n";
+		}
+		else
+		{
         echo "<div class='enroll'>" . $row['id_no'] . "   " . $row['name'] . "<form action='#' method='POST'><input type='text' name='enrl_no' value=''>";
 		 $_SESSION['stu_toenroll'][$i]=$row['id_no'];
 		$_SESSION['t_id'][$i]=$row['name'];
@@ -108,9 +122,10 @@ while ($row = mysql_fetch_array($result))
 		
 		$_SESSION['i']=$_SESSION['i']+1;
 		echo "<input type='submit' name='".$k."' value='ENROLL'> </form></div><br>\n";
-    }
+		}
+	}
+	
 	
 }
 $_SESSION['len']=$_SESSION['i'];
-
 ?>
